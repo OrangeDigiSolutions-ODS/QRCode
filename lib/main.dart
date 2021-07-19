@@ -1,7 +1,6 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:qrorange/screen/slider.dart';
+import 'package:qrcode/screen/slider.dart';
 
 void main() {
   runApp(MyApp());
