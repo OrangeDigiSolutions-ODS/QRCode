@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:qrcode/screen/landingpage.dart';
 
 final List<String> imgList = [
   'https://images.unsplash.com/photo-1600147131759-880e94a6185f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cXIlMjBjb2RlfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60',
@@ -65,7 +66,12 @@ class _CarouselWithIndicatorState extends State<CarouselWithIndicatorDemo> {
                 }).toList(),
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LandingPage()),
+                  );
+                },
                 child: Container(
                   margin: EdgeInsets.fromLTRB(67.0, 60.0, 65.0, 144.0),
                   width: 243.0,

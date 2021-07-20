@@ -31,8 +31,10 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     Timer(
         Duration(seconds: 1),
-        () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => CarouselWithIndicatorDemo())));
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CarouselWithIndicatorDemo())));
   }
 
   @override
@@ -107,13 +109,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-// class SecondScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("GeeksForGeeks")),
-//       body: CarouselDemo(),
-//     );
-//   }
-// }
