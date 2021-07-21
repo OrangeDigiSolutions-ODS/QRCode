@@ -1,6 +1,7 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:qrcode/screen/slider.dart';
+import 'package:qrorange/screen/slider.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Splash Screen',
       theme: ThemeData(
+        backgroundColor:  Color(0xffDD4C00),
         primarySwatch: Colors.orange,
       ),
       home: MyHomePage(),
@@ -31,8 +33,10 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     Timer(
         Duration(seconds: 1),
-        () => Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => CarouselWithIndicatorDemo())));
+        () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+                builder: (context) => CarouselWithIndicatorDemo())));
   }
 
   @override
@@ -107,13 +111,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-// class SecondScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text("GeeksForGeeks")),
-//       body: CarouselDemo(),
-//     );
-//   }
-// }
