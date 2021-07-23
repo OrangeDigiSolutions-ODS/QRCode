@@ -1,9 +1,11 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:qrorange/screen/slider.dart';
+import 'package:qrcode/screen/slider.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -13,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Splash Screen',
       theme: ThemeData(
-        backgroundColor:  Color(0xffDD4C00),
+        backgroundColor: Color(0xffDD4C00),
         primarySwatch: Colors.orange,
       ),
       home: MyHomePage(),

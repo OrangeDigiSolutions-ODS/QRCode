@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:syncfusion_flutter_sliders/sliders.dart';
 
 class ButtonOptions extends StatefulWidget {
   @override
@@ -12,35 +11,35 @@ class ButtonOptions extends StatefulWidget {
 class ButtonOptionsState extends State<ButtonOptions> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
+    return
+        // Row(
+        //   children: [
         Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Container(
-                color: HexColor("#C6C6C6"),
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height * .163,
-                child: Center(
-                  child: new ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: 2,
-                      // itemExtent: 10.0,
-                      // reverse: true, //makes the list appear in descending order
-                      itemBuilder: (BuildContext context, int index) {
-                        return _buildItems(index);
-                      }),
-                )),
-            // Center(
-            //     child: RangeSlider(
-            //   values: RangeValues(1, 3),
-            //   onChanged: (RangeValues value) {},
-            // ))
-          ],
-        ),
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Container(
+            color: HexColor("#C6C6C6"),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height * .163,
+            child: Center(
+              child: new ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
+                  itemCount: 2,
+                  // itemExtent: 10.0,
+                  // reverse: true, //makes the list appear in descending order
+                  itemBuilder: (BuildContext context, int index) {
+                    return _buildItems(index);
+                  }),
+            )),
+        // Center(
+        //     child: RangeSlider(
+        //   values: RangeValues(1, 3),
+        //   onChanged: (RangeValues value) {},
+        // ))
+        // ],
       ],
     );
   }
@@ -51,6 +50,7 @@ Widget _buildItems(int index) {
   Icon icons;
   if (index == 0) {
     ext = "Image";
+
     icons = Icon(
       Icons.image_outlined,
       color: Color(0xffDD4C00),
@@ -75,7 +75,7 @@ Widget _buildItems(int index) {
             children: [
               FittedBox(
                 child: Container(
-                  width: 75.0,
+                  width: 80.0,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(3.5),
                       boxShadow: [
@@ -90,7 +90,8 @@ Widget _buildItems(int index) {
                       border: Border.all(color: Color(0xffDD4C00) //orange color
                           )),
                   // width: MediaQuery.of(context).size.width*0.2,
-                  padding: EdgeInsets.only(left: 17, top: 13, right: 17),
+                  // padding: EdgeInsets.only(left: 17, top: 13, right: 17),
+                  padding: EdgeInsets.fromLTRB(17, 13, 17, 0),
 
                   child: Column(
                     children: [

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:qrorange/screen/image_to_qr.dart';
+
+// import 'ScanPage.dart';
+import 'image_to_qr.dart';
 
 // ignore: camel_case_types
 class buttomNav extends StatefulWidget {
@@ -17,14 +19,12 @@ class _buttomNavState extends State<buttomNav> {
   final _selectedBgColor = HexColor("#DD4C00");
   final _unselectedBgColor = HexColor("#353535");
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+  // static const TextStyle optionStyle =
+  //     TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
   static const List<Widget> _widgetOptions = <Widget>[
     LandingPage(),
-    Text(
-      'Index 1: Scan Satu',
-      style: optionStyle,
-    ),
+    // ScanPage(),
+    Text("hello utkarsh")
   ];
 
   void _onItemTapped(int index) {
@@ -70,11 +70,12 @@ class _buttomNavState extends State<buttomNav> {
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: _buildIcon(Icons.extension, 'Create', 0),
-            title: SizedBox.shrink(),
+            label: "ss",
           ),
           BottomNavigationBarItem(
             icon: _buildIcon(Icons.camera_enhance, 'Scan', 1),
-            title: SizedBox.shrink(),
+            // title: SizedBox.shrink(),
+            label: "sss",
           ),
         ],
         currentIndex: _selectedIndex,
