@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.orange,
       ),
       home: MyHomePage(),
-      debugShowCheckedModeBanner: true,
+      debugShowCheckedModeBanner: false,
     );
   }
 }
