@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:qrcode/screen/desktop_design.dart';
 import 'package:qrcode/screen/slider.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'screen/bottom_navigation.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,12 +37,41 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
+    asynmethod();
+  }
+
+  Future<void> asynmethod() async {
+    int? initScreen;
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    initScreen = preferences.getInt('initScreen');
+    await preferences.setInt('initScreen', 1);
     Timer(
         Duration(seconds: 1),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => CarouselWithIndicatorDemo())));
+        () => Navigator.pushReplacement(context, MaterialPageRoute(
+                // builder: (context) {
+                //   return initScreen == 1
+                //     ? LandingPage()
+                //     : CarouselWithIndicatorDemo();
+                // }
+                builder: (context) {
+              if (initScreen == 1) {
+                return LayoutBuilder(builder: (context, constraint) {
+                  if (constraint.maxWidth < 768) {
+                    return buttomNav();
+                  } else {
+                    return DesktopDesign();
+                  }
+                });
+              } else {
+                return LayoutBuilder(builder: (context, constraint) {
+                  if (constraint.maxWidth < 768) {
+                    return CarouselWithIndicatorDemo();
+                  } else {
+                    return DesktopDesign();
+                  }
+                });
+              }
+            })));
   }
 
   @override

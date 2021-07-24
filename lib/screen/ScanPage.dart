@@ -15,17 +15,19 @@ class ScanPage extends StatefulWidget {
 }
 
 class _ScanPage extends State<ScanPage> {
- String result = "Hello World...!";
+  String result = "Hello World...!";
   Future _scanQR() async {
     try {
       String? cameraScanResult = await scanner.scan();
       setState(() {
-        result = cameraScanResult!; // setting string result with cameraScanResult
+        result =
+            cameraScanResult!; // setting string result with cameraScanResult
       });
     } on PlatformException catch (e) {
       print(e);
     }
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

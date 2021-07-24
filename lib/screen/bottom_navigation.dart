@@ -62,9 +62,17 @@ class _buttomNavState extends State<buttomNav> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
+      body: Center(child: LayoutBuilder(
+        builder: (context, constraint) {
+          if (constraint.maxWidth < 768) {
+            return _widgetOptions.elementAt(_selectedIndex);
+          } else {
+            return Container();
+          }
+        },
+      )
+          //  _widgetOptions.elementAt(_selectedIndex),
+          ),
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 0,
         items: <BottomNavigationBarItem>[

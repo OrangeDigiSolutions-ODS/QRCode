@@ -21,7 +21,7 @@ class ButtonOptionsState extends State<ButtonOptions> {
         Container(
             color: HexColor("#C6C6C6"),
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height * .163,
+            height: MediaQuery.of(context).size.height * .142,
             child: Center(
               child: new ListView.builder(
                   scrollDirection: Axis.horizontal,
