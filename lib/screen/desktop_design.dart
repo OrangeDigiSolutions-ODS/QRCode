@@ -1,6 +1,6 @@
-import 'dart:ui';
+// import 'dart:ui';
 
-import 'package:auto_size_text_pk/auto_size_text_pk.dart';
+// import 'package:auto_size_text_pk/auto_size_text_pk.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:qrcode/screen/category.dart';

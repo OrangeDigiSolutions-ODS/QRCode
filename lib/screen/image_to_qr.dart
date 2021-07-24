@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'dart:io' as android;
 import 'package:flutter/material.dart';
 import 'package:images_picker/images_picker.dart';
-import 'package:qrcode/screen/bottom_navigation.dart';
+// import 'package:qrcode/screen/bottom_navigation.dart';
 import 'package:qrcode/screen/category.dart';
 import 'package:qrcode/screen/desktop_design.dart';
 import 'package:qrcode/screen/topNavbar.dart';
