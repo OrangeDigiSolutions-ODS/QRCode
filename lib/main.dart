@@ -4,10 +4,11 @@ import 'package:qrcode/screen/desktop_design.dart';
 import 'package:qrcode/screen/slider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:url_strategy/url_strategy.dart';
 import 'screen/bottom_navigation.dart';
 
 Future<void> main() async {
+  setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());

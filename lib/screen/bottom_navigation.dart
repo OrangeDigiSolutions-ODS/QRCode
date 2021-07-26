@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -24,7 +25,7 @@ class _buttomNavState extends State<buttomNav> {
   static const List<Widget> _widgetOptions = <Widget>[
     LandingPage(),
     // ScanPage(),
-    Text("hello utkarsh")
+    Text("hello")
   ];
 
   void _onItemTapped(int index) {
@@ -73,23 +74,23 @@ class _buttomNavState extends State<buttomNav> {
       )
           //  _widgetOptions.elementAt(_selectedIndex),
           ),
-      bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar:kIsWeb==false? BottomNavigationBar(
         selectedFontSize: 0,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: _buildIcon(Icons.extension, 'Create', 0),
-            label: "ss",
+            label: "create",
           ),
           BottomNavigationBarItem(
             icon: _buildIcon(Icons.camera_enhance, 'Scan', 1),
             // title: SizedBox.shrink(),
-            label: "sss",
+            label: "scan",
           ),
         ],
         currentIndex: _selectedIndex,
         selectedItemColor: _selectedItemColor,
         unselectedItemColor: _unselectedItemColor,
-      ),
+      ):SizedBox.shrink(),
     );
   }
 }

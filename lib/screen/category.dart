@@ -68,50 +68,46 @@ Widget _buildItems(int index) {
     // color: Colors.blue,
     padding: const EdgeInsets.only(left: 10.0),
     child: Row(
-      children: [
-        Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FittedBox(
-                child: Container(
-                  width: 80.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(3.5),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          offset: const Offset(2.0, 2.0),
-                          blurRadius: 1.0,
-                          spreadRadius: 0.7,
-                        ),
-                      ],
-                      color: Colors.white,
-                      border: Border.all(color: Color(0xffDD4C00) //orange color
-                          )),
-                  // width: MediaQuery.of(context).size.width*0.2,
-                  // padding: EdgeInsets.only(left: 17, top: 13, right: 17),
-                  padding: EdgeInsets.fromLTRB(17, 13, 17, 0),
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          FittedBox(
+            child: Container(
+              width: 80.0,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(3.5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey,
+                      offset: const Offset(2.0, 2.0),
+                      blurRadius: 1.0,
+                      spreadRadius: 0.7,
+                    ),
+                  ],
+                  color: Colors.white,
+                  border: Border.all(color: Color(0xffDD4C00) //orange color
+                      )),
+              // width: MediaQuery.of(context).size.width*0.2,
+              // padding: EdgeInsets.only(left: 17, top: 13, right: 17),
+              padding: EdgeInsets.fromLTRB(17, 13, 17, 0),
 
-                  child: Column(
-                    children: [
-                      icons,
-                      Padding(
-                        padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
-                        child: Text(
-                          ext,
-                          style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xff353535)),
-                        ),
-                      ),
-                    ],
+              child: Column(
+                children: [
+                  icons,
+                  Padding(
+                    padding: const EdgeInsets.only(top: 3.0, bottom: 3.0),
+                    child: Text(
+                      ext,
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff353535)),
+                    ),
                   ),
-                ),
-              )
-            ])
-      ],
-    ),
+                ],
+              ),
+            ),
+          )
+        ]),
   );
 }
