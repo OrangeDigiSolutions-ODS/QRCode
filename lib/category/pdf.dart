@@ -111,76 +111,76 @@ class _PdfToQrState extends State<PdfToQr> {
                           children: <Widget>[
                             ElevatedButton(
                               onPressed: () async {
-                                if (kIsWeb) {
-                                  final FilePickerResult? bytesFromPicker =
-                                      await FilePicker.platform.pickFiles(
-                                          type: FileType.custom,
-                                          allowedExtensions: <String>["pdf"]);
-                                  final PlatformFile file =
-                                      bytesFromPicker!.files.first;
-                                  if (file.size < 10240000) {
-                                    if (bytesFromPicker.isSinglePick) {
-                                      setState(() {
-                                        showTopSnackBar(
-                                          context,
-                                          const CustomSnackBar.success(
-                                            message:
-                                                "File selected successfully",
-                                          ),
-                                        );
-                                        final List<Uint8List?> res =
-                                            bytesFromPicker.files
-                                                .map((_) => _.bytes)
-                                                .toList();
-                                        path1 = res.first!.buffer.asUint8List();
-                                      });
-                                    }
-                                  } else {
-                                    setState(() {
-                                      showTopSnackBar(
-                                        context,
-                                        const CustomSnackBar.error(
-                                          message:
-                                              "Please select a file less than 10 mb",
-                                        ),
-                                      );
-                                    });
-                                  }
-                                } else if (Platform.isAndroid) {
-                                  final FilePickerResult? bytesFromPicker =
-                                      await FilePicker.platform.pickFiles(
-                                          type: FileType.custom,
-                                          allowedExtensions: <String>["pdf"]);
-                                  final PlatformFile file =
-                                      bytesFromPicker!.files.first;
-                                  if (file.size < 10240000) {
-                                    if (bytesFromPicker.isSinglePick) {
-                                      setState(() {
-                                        showTopSnackBar(
-                                          context,
-                                          const CustomSnackBar.success(
-                                            message:
-                                                "File selected successfully",
-                                          ),
-                                        );
-                                        final File file1 = File(file.path!);
-                                        setState(() {
-                                          path2 = file1;
-                                        });
-                                      });
-                                    }
-                                  } else {
-                                    setState(() {
-                                      showTopSnackBar(
-                                        context,
-                                        const CustomSnackBar.error(
-                                          message:
-                                              "Please select a file less than 10 mb",
-                                        ),
-                                      );
-                                    });
-                                  }
-                                }
+                                // if (kIsWeb) {
+                                //   final FilePickerResult? bytesFromPicker =
+                                //       await FilePicker.platform.pickFiles(
+                                //           type: FileType.custom,
+                                //           allowedExtensions: <String>["pdf"]);
+                                //   final PlatformFile file =
+                                //       bytesFromPicker!.files.first;
+                                //   if (file.size < 10240000) {
+                                //     if (bytesFromPicker.isSinglePick) {
+                                //       setState(() {
+                                //         showTopSnackBar(
+                                //           context,
+                                //           const CustomSnackBar.success(
+                                //             message:
+                                //                 "File selected successfully",
+                                //           ),
+                                //         );
+                                //         final List<Uint8List?> res =
+                                //             bytesFromPicker.files
+                                //                 .map((_) => _.bytes)
+                                //                 .toList();
+                                //         path1 = res.first!.buffer.asUint8List();
+                                //       });
+                                //     }
+                                //   } else {
+                                //     setState(() {
+                                //       showTopSnackBar(
+                                //         context,
+                                //         const CustomSnackBar.error(
+                                //           message:
+                                //               "Please select a file less than 10 mb",
+                                //         ),
+                                //       );
+                                //     });
+                                //   }
+                                // } else if (Platform.isAndroid) {
+                                //   final FilePickerResult? bytesFromPicker =
+                                //       await FilePicker.platform.pickFiles(
+                                //           type: FileType.custom,
+                                //           allowedExtensions: <String>["pdf"]);
+                                //   final PlatformFile file =
+                                //       bytesFromPicker!.files.first;
+                                //   if (file.size < 10240000) {
+                                //     if (bytesFromPicker.isSinglePick) {
+                                //       setState(() {
+                                //         showTopSnackBar(
+                                //           context,
+                                //           const CustomSnackBar.success(
+                                //             message:
+                                //                 "File selected successfully",
+                                //           ),
+                                //         );
+                                //         final File file1 = File(file.path!);
+                                //         setState(() {
+                                //           path2 = file1;
+                                //         });
+                                //       });
+                                //     }
+                                //   } else {
+                                //     setState(() {
+                                //       showTopSnackBar(
+                                //         context,
+                                //         const CustomSnackBar.error(
+                                //           message:
+                                //               "Please select a file less than 10 mb",
+                                //         ),
+                                //       );
+                                //     });
+                                //   }
+                                // }
                               },
                               style: ElevatedButton.styleFrom(
                                   side: BorderSide(

@@ -41,19 +41,19 @@ class _ImageToQrState extends State<ImageToQr> {
                             children: <Widget>[
                               ElevatedButton(
                                 onPressed: () async {
-                                  List<String> img = <String>[];
-                                  res = await ImagesPicker.openCamera(
-                                    quality: 0.5,
-                                    cropOpt: CropOption(),
-                                  );
-                                  if (res != null) {
-                                    img = res!.map((_) => _.path).toList();
-                                    setState(() {
-                                      for (int i = 0; i < img.length; i++) {
-                                        path1.add(img[i]);
-                                      }
-                                    });
-                                  }
+                                  // List<String> img = <String>[];
+                                  // res = await ImagesPicker.openCamera(
+                                  //   quality: 0.5,
+                                  //   cropOpt: CropOption(),
+                                  // );
+                                  // if (res != null) {
+                                  //   img = res!.map((_) => _.path).toList();
+                                  //   setState(() {
+                                  //     for (int i = 0; i < img.length; i++) {
+                                  //       path1.add(img[i]);
+                                  //     }
+                                  //   });
+                                  // }
                                 },
                                 style: ElevatedButton.styleFrom(
                                     side: const BorderSide(
