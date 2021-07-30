@@ -294,7 +294,7 @@ class _PdfToQrState extends State<PdfToQr> {
           );
         } else {
           return const DesktopViewPdf(
-            title: "Pdf to QR",
+            title: "PDF TO QR CODE",
             browse: "Upload PDF",
             generate: "Create Qr",
             icon1: Icons.cloud_upload,

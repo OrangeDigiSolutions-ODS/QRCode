@@ -224,7 +224,7 @@ class _ImageToQrState extends State<ImageToQr> {
             );
           } else {
             return const DesktopViewImage(
-              title: "Image to Qr",
+              title: "IMAGE TO QR CODE",
               browse: "Browse",
               generate: "Generate",
               icon1: Icons.insert_drive_file,

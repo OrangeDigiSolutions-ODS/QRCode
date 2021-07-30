@@ -1,3 +1,4 @@
+import "dart:io";
 import "package:flutter/cupertino.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -65,13 +66,23 @@ class CategoryState extends State<Category> {
                                   );
                                 }
                                 if (__ == 0) {
-                                  showTopSnackBar(
-                                    context,
-                                    const CustomSnackBar.info(
-                                      message:
-                                          "Please select file by clicking camera or gallery button",
-                                    ),
-                                  );
+                                  if (kIsWeb) {
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.info(
+                                        message:
+                                            "Please select file by clicking Browse button",
+                                      ),
+                                    );
+                                  } else if (Platform.isAndroid) {
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.info(
+                                        message:
+                                            "Please select file by clicking Camera or Gallery button",
+                                      ),
+                                    );
+                                  }
                                 }
                                 if (indexpage == __) {
                                   height =
