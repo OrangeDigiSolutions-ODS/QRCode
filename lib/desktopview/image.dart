@@ -1,4 +1,5 @@
 import "dart:typed_data";
+import "package:auto_size_text_pk/auto_size_text_pk.dart";
 import "package:carousel_slider/carousel_slider.dart";
 import "package:file_picker/file_picker.dart";
 import "package:flutter/material.dart";
@@ -33,159 +34,160 @@ class _DesktopViewImageState extends State<DesktopViewImage> {
   List<Uint8List> path1 = <Uint8List>[];
   GlobalKey<CarouselSliderState> sslKey = GlobalKey();
   @override
-  Widget build(BuildContext context) => Expanded(
-          child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.85,
+  Widget build(BuildContext context) => SizedBox(
+        height: MediaQuery.of(context).size.height * 0.82,
         child: Column(
           children: <Widget>[
             TopBar(title: widget.title),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.56,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        if (path1.isNotEmpty)
-                          Card(
-                            child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.50,
-                              width: MediaQuery.of(context).size.width,
-                              child: slider(sslKey),
-                            ),
-                          )
-                        else
-                          Image.asset(
-                            "assets/images/img2.png",
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: Column(
+                    children: <Widget>[
+                      if (path1.isNotEmpty)
+                        Card(
+                          child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.50,
                             width: MediaQuery.of(context).size.width,
+                            child: slider(sslKey),
                           ),
-                        Text(
-                          "Image Preview",
-                          style: TextStyle(
-                            color: ColorCode.black,
-                            fontSize: 20,
-                            decoration: TextDecoration.none,
-                            fontWeight: FontWeight.normal,
-                          ),
+                        )
+                      else
+                        Image.asset(
+                          "assets/images/img2.png",
+                          height: MediaQuery.of(context).size.height * 0.50,
+                          width: MediaQuery.of(context).size.width,
                         ),
-                      ],
-                    ),
+                      Text(
+                        "Image Preview",
+                        style: TextStyle(
+                          color: ColorCode.black,
+                          fontSize: 20,
+                          decoration: TextDecoration.none,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(
-                            """Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem 
-Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown
-printer took a galley of type and scrambled it to make a type specimen book""",
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: <Widget>[
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.4,
+                        child: AutoSizeText(
+                            """Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book""",
+                            wrapWords: false,
+                            maxLines: 10,
                             style: TextStyle(
                                 decoration: TextDecoration.none,
                                 color: ColorCode.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.normal)),
-                        SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: ColorCode.white,
-                                    side: BorderSide(color: ColorCode.black)),
-                                onPressed: multipleimage,
-                                child: Expanded(
-                                  child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.2,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Icon(
-                                            widget.icon1,
-                                            color: ColorCode.black,
-                                          ),
-                                          Text(
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.1,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: ColorCode.white,
+                                  side: BorderSide(color: ColorCode.black)),
+                              onPressed: multipleimage,
+                              child: SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.15,
+                                  child: Center(
+                                    child: Stack(
+                                      // mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(
+                                          widget.icon1,
+                                          color: ColorCode.black,
+                                        ),
+                                        Center(
+                                          child: Text(
                                             widget.browse,
                                             style: TextStyle(
                                               color: ColorCode.black,
                                               fontSize: 18,
                                             ),
-                                          )
-                                        ],
-                                      )),
-                                )),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01,
-                            ),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: ColorCode.orange,
-                                ),
-                                onPressed: () {
-                                  if (path1.isNotEmpty) {
-                                    final String v4 = uuid.v4();
-                                    for (int i = 0; i < path1.length; i++) {
-                                      imageUpload1(v4, path1[i]);
-                                    }
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.success(
-                                        message: "File upload successfully",
-                                      ),
-                                    );
-                                  } else {
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.error(
-                                        message:
-                                            "Please select a image file first.",
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Expanded(
-                                  child: Container(
-                                      color: ColorCode.orange,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.2,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Icon(
-                                            widget.icon2,
-                                            color: ColorCode.white,
                                           ),
-                                          Text(
-                                            widget.generate,
-                                            style: TextStyle(
-                                              color: ColorCode.white,
-                                              fontSize: 18,
-                                            ),
-                                          )
-                                        ],
-                                      )),
-                                ))
-                          ],
-                        )
-                      ],
-                    ),
-                  )
-                ],
-              ),
+                                        )
+                                      ],
+                                    ),
+                                  ))),
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.01,
+                          ),
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                primary: ColorCode.orange,
+                              ),
+                              onPressed: () {
+                                if (path1.isNotEmpty) {
+                                  final String v4 = uuid.v4();
+                                  for (int i = 0; i < path1.length; i++) {
+                                    imageUpload1(v4, path1[i]);
+                                  }
+                                  showTopSnackBar(
+                                    context,
+                                    const CustomSnackBar.success(
+                                      message: "File upload successfully",
+                                    ),
+                                  );
+                                } else {
+                                  showTopSnackBar(
+                                    context,
+                                    const CustomSnackBar.error(
+                                      message:
+                                          "Please select a image file first.",
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                  color: ColorCode.orange,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.15,
+                                  child: Stack(
+                                    // mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        widget.icon2,
+                                        color: ColorCode.white,
+                                      ),
+                                      Center(
+                                        child: Text(
+                                          widget.generate,
+                                          style: TextStyle(
+                                            color: ColorCode.white,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )))
+                        ],
+                      )
+                    ],
+                  ),
+                )
+              ],
             )
           ],
         ),
-      ));
+      );
   FilePickerResult? bytesFromPicker;
   List<Uint8List?> img = <Uint8List?>[];
   Future<void> multipleimage() async {
@@ -212,8 +214,7 @@ printer took a galley of type and scrambled it to make a type specimen book""",
         ),
         itemCount: path1.length,
         key: sslkey,
-        itemBuilder: (_,__,___) =>
-            Column(
+        itemBuilder: (_, __, ___) => Column(
           children: <Widget>[
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.38,

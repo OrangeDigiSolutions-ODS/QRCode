@@ -32,7 +32,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 return LayoutBuilder(builder: (_, __) {
                   if (__.maxWidth < 768) {
                     return const BottomBar();
-                    // buttomNav();
                   } else {
                     return const DesktopDesign();
                   }
@@ -41,7 +40,6 @@ class _SplashScreenState extends State<SplashScreen> {
                 return LayoutBuilder(builder: (_, __) {
                   if (__.maxWidth < 768) {
                     return const SliderPage();
-                    // CarouselWithIndicatorDemo();
                   } else {
                     return const DesktopDesign();
                   }

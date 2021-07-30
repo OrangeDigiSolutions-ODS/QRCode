@@ -1,4 +1,5 @@
 import "dart:io";
+import "package:auto_size_text_pk/auto_size_text_pk.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -17,13 +18,14 @@ class Category extends StatefulWidget {
 class CategoryState extends State<Category> {
   final List<Widget> page = <Widget>[
     const ImageToQr(),
+    // const Text("ssc"),
     const PdfToQr(),
   ];
   int indexpage = 0;
 
   @override
   Widget build(BuildContext context) {
-    double height = MediaQuery.of(context).size.height * 0.1;
+    double height = MediaQuery.of(context).size.height * 0.09;
     double width = MediaQuery.of(context).size.height * 0.15;
     final List<IconData> icons = <IconData>[
       Icons.image_outlined,
@@ -33,21 +35,20 @@ class CategoryState extends State<Category> {
       "Image",
       "Pdf",
     ];
-    return Column(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        page[indexpage],
-        Expanded(
-          child: Container(
+    return SafeArea(
+      child: Column(
+        children: <Widget>[
+          page[indexpage],
+          Container(
             color: ColorCode.lightgrey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Container(
                   alignment: Alignment.center,
                   // margin: const EdgeInsets.fromLTRB(0, 0, 0, 10),
                   height: MediaQuery.of(context).size.height * 0.14,
-                  width: double.infinity,
+                  width: MediaQuery.of(context).size.width,
                   child: ListView.builder(
                       itemCount: icons.length,
                       shrinkWrap: true,
@@ -115,40 +116,43 @@ class CategoryState extends State<Category> {
                                             spreadRadius: 0.5,
                                           ),
                                         ]),
-                                    child: Card(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Icon(
-                                            icons[__],
-                                            color: ColorCode.orange,
-                                            size: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.07,
-                                            // MediaQuery.of(context).size.width *
-                                            //     0.1,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(1),
-                                            child: Text(txt[__],
-                                                style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: ColorCode.black,
-                                                )),
-                                          ),
-                                        ],
+                                    child: SizedBox(
+                                      height: height,
+                                      width: width,
+                                      child: Card(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Icon(
+                                              icons[__],
+                                              color: ColorCode.orange,
+                                              size: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.06,
+                                              // MediaQuery.of(context).size.width *
+                                              //     0.1,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(1),
+                                              child: AutoSizeText(txt[__],
+                                                  wrapWords: false,
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: ColorCode.black,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   )
                                 : Container(
-                                    height: 100,
-                                    // MediaQuery.of(context).size.height * 0.13,
-                                    // width:
-                                    // MediaQuery.of(context).size.width * 0.10,
-                                    // MediaQuery.of(context).size.height * 0.1,
-                                    width: 80,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.6,
+                                    width: MediaQuery.of(context).size.height *
+                                        0.11,
                                     margin: const EdgeInsets.fromLTRB(
-                                        20, 10, 20, 10),
+                                        10, 10, 10, 10),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(5),
                                         boxShadow: <BoxShadow>[
@@ -159,26 +163,33 @@ class CategoryState extends State<Category> {
                                             spreadRadius: 0.5,
                                           ), //BoxShadow
                                         ]),
-                                    child: Card(
-                                      child: Column(
-                                        children: <Widget>[
-                                          Icon(
-                                            icons[__],
-                                            color: ColorCode.orange,
-                                            size: MediaQuery.of(context)
-                                                    .size
-                                                    .height *
-                                                0.05,
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(1),
-                                            child: Text(txt[__],
-                                                style: TextStyle(
-                                                  fontSize: 13,
-                                                  color: ColorCode.black,
-                                                )),
-                                          ),
-                                        ],
+                                    child: SizedBox(
+                                      height: MediaQuery.of(context).size.height *
+                                        0.6,
+                                    width: MediaQuery.of(context).size.height *
+                                        0.11,
+                                      child: Card(
+                                        child: Column(
+                                          children: <Widget>[
+                                            Icon(
+                                              icons[__],
+                                              color: ColorCode.orange,
+                                              size: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  0.04,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(1),
+                                              child: AutoSizeText(txt[__],
+                                                  wrapWords: false,
+                                                  style: TextStyle(
+                                                    fontSize: 13,
+                                                    color: ColorCode.black,
+                                                  )),
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -187,8 +198,8 @@ class CategoryState extends State<Category> {
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

@@ -1,4 +1,5 @@
 import "dart:typed_data";
+import "package:auto_size_text_pk/auto_size_text_pk.dart";
 import "package:file_picker/file_picker.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
@@ -33,212 +34,211 @@ class _DesktopViewPdfState extends State<DesktopViewPdf> {
   Uuid uuid = const Uuid();
   Uint8List? path1;
   @override
-  Widget build(BuildContext context) => Expanded(
-          child: SizedBox(
-        height: MediaQuery.of(context).size.height * 0.85,
+  Widget build(BuildContext context) => SizedBox(
+        height: MediaQuery.of(context).size.height * 0.82,
         child: Column(
-          children: <Widget>[
-            TopBar(title: widget.title),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.02,
-            ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.56,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      children: <Widget>[
-                        Center(
-                          child: Column(
-                            children: <Widget>[
-                              if (path1 != null)
-                                SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.50,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: Column(children: <Widget>[
-                                      SizedBox(
-                                          height: MediaQuery.of(context)
-                                                  .size
-                                                  .height *
-                                              0.50,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
-                                              0.40,
-                                          child: SfPdfViewer.memory(
-                                            path1!,
-                                            enableDoubleTapZooming: false,
-                                          ))
-                                    ]))
-                              else
-                                Image.asset(
-                                  "assets/images/img2.png",
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.50,
-                                  width: MediaQuery.of(context).size.width,
-                                ),
-                              Text(
-                                "PDF Preview",
-                                style: TextStyle(
-                                  color: ColorCode.black,
-                                  fontSize: 20,
-                                  decoration: TextDecoration.none,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(
-                            """Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem 
-Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown
-printer took a galley of type and scrambled it to make a type specimen book""",
-                            style: TextStyle(
-                                decoration: TextDecoration.none,
-                                color: ColorCode.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.normal)),
+  children: <Widget>[
+    TopBar(title: widget.title),
+    SizedBox(
+      height: MediaQuery.of(context).size.height * 0.02,
+    ),
+    SizedBox(
+      height: MediaQuery.of(context).size.height * 0.56,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          SizedBox(
+             width: MediaQuery.of(context).size.width * 0.4,
+            child: Column(
+              children: <Widget>[
+                Center(
+                  child: Column(
+                    children: <Widget>[
+                      if (path1 != null)
                         SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.1,
+                            height: MediaQuery.of(context).size.height *
+                                0.50,
+                            width: MediaQuery.of(context).size.width,
+                            child: Column(children: <Widget>[
+                              SizedBox(
+                                  height: MediaQuery.of(context)
+                                          .size
+                                          .height *
+                                      0.50,
+                                  width: MediaQuery.of(context)
+                                          .size
+                                          .width *
+                                      0.40,
+                                  child: SfPdfViewer.memory(
+                                    path1!,
+                                    enableDoubleTapZooming: false,
+                                  ))
+                            ]))
+                      else
+                        Image.asset(
+                          "assets/images/img2.png",
+                          height:
+                              MediaQuery.of(context).size.height * 0.50,
+                          width: MediaQuery.of(context).size.width,
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: ColorCode.white,
-                                    side: BorderSide(color: ColorCode.black)),
-                                onPressed: () async {
-                                  if (kIsWeb) {
-                                    final FilePickerResult? bytesFromPicker =
-                                        await FilePicker.platform.pickFiles(
-                                            type: FileType.custom,
-                                            allowedExtensions: <String>["pdf"]);
-                                    final PlatformFile file =
-                                        bytesFromPicker!.files.first;
-                                    if (file.size < 10240000) {
-                                      if (bytesFromPicker.isSinglePick) {
-                                        setState(() {
-                                          showTopSnackBar(
-                                            context,
-                                            const CustomSnackBar.success(
-                                              message:
-                                                  "File selected successfully",
-                                            ),
-                                          );
-                                          final List<Uint8List?> res =
-                                              bytesFromPicker.files
-                                                  .map((_) => _.bytes)
-                                                  .toList();
-                                          path1 =
-                                              res.first!.buffer.asUint8List();
-                                        });
-                                      }
-                                    } else {
-                                      setState(() {
-                                        showTopSnackBar(
-                                          context,
-                                          const CustomSnackBar.error(
-                                            message:
-                                                "Please select a file less than 10 mb",
-                                          ),
-                                        );
-                                      });
-                                    }
-                                  }
-                                },
-                                child: Expanded(
-                                  child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          0.2,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Icon(
-                                            widget.icon1,
-                                            color: ColorCode.black,
-                                          ),
-                                          Text(
-                                            widget.browse,
-                                            style: TextStyle(
-                                              color: ColorCode.black,
-                                              fontSize: 18,
-                                            ),
-                                          )
-                                        ],
-                                      )),
-                                )),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.01,
-                            ),
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  primary: ColorCode.orange,
+                      Text(
+                        "PDF Preview",
+                        style: TextStyle(
+                          color: ColorCode.black,
+                          fontSize: 20,
+                          decoration: TextDecoration.none,
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                AutoSizeText(
+                    """Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book""",
+                    wrapWords: false,
+                    style: TextStyle(
+                        decoration: TextDecoration.none,
+                        color: ColorCode.black,
+                        fontSize: 20,
+                        fontWeight: FontWeight.normal)),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.1,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: ColorCode.white,
+                            side: BorderSide(color: ColorCode.black)),
+                        onPressed: () async {
+                          if (kIsWeb) {
+                            final FilePickerResult? bytesFromPicker =
+                                await FilePicker.platform.pickFiles(
+                                    type: FileType.custom,
+                                    allowedExtensions: <String>["pdf"]);
+                            final PlatformFile file =
+                                bytesFromPicker!.files.first;
+                            if (file.size < 10240000) {
+                              if (bytesFromPicker.isSinglePick) {
+                                setState(() {
+                                  showTopSnackBar(
+                                    context,
+                                    const CustomSnackBar.success(
+                                      message:
+                                          "File selected successfully",
+                                    ),
+                                  );
+                                  final List<Uint8List?> res =
+                                      bytesFromPicker.files
+                                          .map((_) => _.bytes)
+                                          .toList();
+                                  path1 =
+                                      res.first!.buffer.asUint8List();
+                                });
+                              }
+                            } else {
+                              setState(() {
+                                showTopSnackBar(
+                                  context,
+                                  const CustomSnackBar.error(
+                                    message:
+                                        "Please select a file less than 10 mb",
+                                  ),
+                                );
+                              });
+                            }
+                          }
+                        },
+                        child: SizedBox(
+                            width: MediaQuery.of(context).size.width *
+                                0.2,
+                            child: Stack(
+                              // mainAxisAlignment:
+                              //     MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  widget.icon1,
+                                  color: ColorCode.black,
                                 ),
-                                onPressed: () {
-                                  if (path1 != null) {
-                                    final String v4 = uuid.v4();
-                                    pdfUpload(v4, path1!);
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.success(
-                                        message: "File upload successfully",
-                                      ),
-                                    );
-                                  } else {
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.error(
-                                        message:
-                                            "Please select a pdf file first.",
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Expanded(
-                                  child: Container(
-                                      color: ColorCode.orange,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.2,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Icon(
-                                            widget.icon2,
-                                            color: ColorCode.white,
-                                          ),
-                                          Text(
-                                            widget.generate,
-                                            style: TextStyle(
-                                              color: ColorCode.white,
-                                              fontSize: 18,
-                                            ),
-                                          )
-                                        ],
-                                      )),
-                                ))
-                          ],
-                        )
-                      ],
+                                Center(
+                                  child: Text(
+                                    widget.browse,
+                                    style: TextStyle(
+                                      color: ColorCode.black,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ))),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.01,
                     ),
-                  )
-                ],
-              ),
-            )
-          ],
+                    ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          primary: ColorCode.orange,
+                        ),
+                        onPressed: () {
+                          if (path1 != null) {
+                            final String v4 = uuid.v4();
+                            pdfUpload(v4, path1!);
+                            showTopSnackBar(
+                              context,
+                              const CustomSnackBar.success(
+                                message: "File upload successfully",
+                              ),
+                            );
+                          } else {
+                            showTopSnackBar(
+                              context,
+                              const CustomSnackBar.error(
+                                message:
+                                    "Please select a pdf file first.",
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                            color: ColorCode.orange,
+                            width: MediaQuery.of(context).size.width *
+                                0.2,
+                            child: Stack(
+                              // mainAxisAlignment:
+                              //     MainAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
+                                  widget.icon2,
+                                  color: ColorCode.white,
+                                ),
+                                Center(
+                                  child: Text(
+                                    widget.generate,
+                                    style: TextStyle(
+                                      color: ColorCode.white,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                )
+                              ],
+                            )))
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    )
+  ],
         ),
-      ));
+      );
 }

@@ -24,8 +24,9 @@ class _SliderPageState extends State<SliderPage> {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height * 0.70;
     return SafeArea(
-      child: Scaffold(
-        body: Column(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height * 0.1,
+        child: Column(
           children: <Widget>[
             Stack(children: <Widget>[
               CarouselSlider(
@@ -81,27 +82,25 @@ class _SliderPageState extends State<SliderPage> {
                   .toList(),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.0,
+              height: MediaQuery.of(context).size.height * 0.1,
             ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: ConstrainedBox(
-                  constraints: BoxConstraints.tightFor(
-                      width: MediaQuery.of(context).size.width * 0.80,
-                      height: MediaQuery.of(context).size.height * 0.07),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                          primary: const Color(0xffDD4C00)),
-                      onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute<Widget>(
-                            builder: (_) =>const BottomBar()));
-                      },
-                      child: const Text(
-                        "Get Started >",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      )),
-                ),
+            Container(
+              alignment: Alignment.bottomCenter,
+              child: ConstrainedBox(
+                constraints: BoxConstraints.tightFor(
+                    width: MediaQuery.of(context).size.width * 0.80,
+                    height: MediaQuery.of(context).size.height * 0.07),
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                        primary: const Color(0xffDD4C00)),
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute<Widget>(
+                          builder: (_) => const BottomBar()));
+                    },
+                    child: const Text(
+                      "Get Started >",
+                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    )),
               ),
             ),
             SizedBox(

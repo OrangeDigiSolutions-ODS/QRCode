@@ -26,25 +26,25 @@ class _ImageToQrState extends State<ImageToQr> {
   List<Media>? res;
   List<Uint8List> path2 = <Uint8List>[];
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-        builder: (_, __) {
-          if (__.maxWidth < 768) {
-            return SizedBox(
-              height: MediaQuery.of(context).size.height * 0.77,
-              child: Column(
-                children: <Widget>[
-                  MobileView(path1: path1, path2: path2, res: res),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: <Widget>[
-                        if (kIsWeb)
-                          ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  primary: ColorCode.white,
-                                  side: BorderSide(color: ColorCode.black)),
-                              onPressed: multipleimage,
-                              child: Expanded(
+  Widget build(BuildContext context) => SafeArea(
+    child: LayoutBuilder(
+          builder: (_, __) {
+            if (__.maxWidth < 768) {
+              return SizedBox(
+                height: MediaQuery.of(context).size.height * 0.77,
+                child: Column(
+                  children: <Widget>[
+                    MobileView(path1: path1, path2: path2, res: res),
+                    Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        children: <Widget>[
+                          if (kIsWeb)
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: ColorCode.white,
+                                    side: BorderSide(color: ColorCode.black)),
+                                onPressed: multipleimage,
                                 child: SizedBox(
                                     width: 250,
                                     child: Row(
@@ -63,61 +63,16 @@ class _ImageToQrState extends State<ImageToQr> {
                                           ),
                                         )
                                       ],
-                                    )),
-                              ))
-                        else if (Platform.isAndroid)
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              ElevatedButton(
-                                onPressed: () async {
-                                  List<String> img = <String>[];
-                                  res = await ImagesPicker.openCamera(
-                                    quality: 0.5,
-                                    cropOpt: CropOption(),
-                                  );
-                                  if (res != null) {
-                                    img = res!.map((_) => _.path).toList();
-                                    setState(() {
-                                      for (int i = 0; i < img.length; i++) {
-                                        path1.add(img[i]);
-                                      }
-                                    });
-                                  }
-                                },
-                                style: ElevatedButton.styleFrom(
-                                    side: const BorderSide(
-                                      width: 0.9,
-                                    ),
-                                    primary: ColorCode.white,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 30, vertical: 10),
-                                    textStyle: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                                child: Row(
-                                  children: <Widget>[
-                                    Icon(
-                                      Icons.camera_enhance,
-                                      color: ColorCode.grey,
-                                    ),
-                                    Text(
-                                      "Camera",
-                                      style: TextStyle(color: ColorCode.grey),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              GestureDetector(
-                                child: ElevatedButton(
+                                    )))
+                          else if (Platform.isAndroid)
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                ElevatedButton(
                                   onPressed: () async {
                                     List<String> img = <String>[];
-                                    res = await ImagesPicker.pick(
-                                      count: 15,
-                                      maxSize: 1000000,
+                                    res = await ImagesPicker.openCamera(
+                                      quality: 0.5,
                                       cropOpt: CropOption(),
                                     );
                                     if (res != null) {
@@ -130,7 +85,9 @@ class _ImageToQrState extends State<ImageToQr> {
                                     }
                                   },
                                   style: ElevatedButton.styleFrom(
-                                      side: const BorderSide(width: 0.9),
+                                      side: const BorderSide(
+                                        width: 0.9,
+                                      ),
                                       primary: ColorCode.white,
                                       padding: const EdgeInsets.symmetric(
                                           horizontal: 30, vertical: 10),
@@ -140,59 +97,100 @@ class _ImageToQrState extends State<ImageToQr> {
                                   child: Row(
                                     children: <Widget>[
                                       Icon(
-                                        Icons.image_outlined,
+                                        Icons.camera_enhance,
                                         color: ColorCode.grey,
                                       ),
                                       Text(
-                                        "Gallery",
+                                        "Camera",
                                         style: TextStyle(color: ColorCode.grey),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    primary: ColorCode.orange),
-                                onPressed: () {
-                                  if (path1.isNotEmpty) {
-                                    final String v4 = uuid.v4();
-                                    for (int i = 0; i < path1.length; i++) {
-                                      imageUpload(v4, path1[i]);
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                GestureDetector(
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      List<String> img = <String>[];
+                                      res = await ImagesPicker.pick(
+                                        count: 15,
+                                        maxSize: 1000000,
+                                        cropOpt: CropOption(),
+                                      );
+                                      if (res != null) {
+                                        img = res!.map((_) => _.path).toList();
+                                        setState(() {
+                                          for (int i = 0; i < img.length; i++) {
+                                            path1.add(img[i]);
+                                          }
+                                        });
+                                      }
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                        side: const BorderSide(width: 0.9),
+                                        primary: ColorCode.white,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 30, vertical: 10),
+                                        textStyle: const TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold)),
+                                    child: Row(
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.image_outlined,
+                                          color: ColorCode.grey,
+                                        ),
+                                        Text(
+                                          "Gallery",
+                                          style: TextStyle(color: ColorCode.grey),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      primary: ColorCode.orange),
+                                  onPressed: () {
+                                    if (path1.isNotEmpty) {
+                                      final String v4 = uuid.v4();
+                                      for (int i = 0; i < path1.length; i++) {
+                                        imageUpload(v4, path1[i]);
+                                      }
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.success(
+                                          message: "File upload successfully",
+                                        ),
+                                      );
+                                    } else if (path2.isNotEmpty) {
+                                      final String v4 = uuid.v4();
+                                      for (int i = 0; i < path2.length; i++) {
+                                        imageUpload1(v4, path2[i]);
+                                      }
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.success(
+                                          message: "File upload successfully",
+                                        ),
+                                      );
+                                    } else {
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.error(
+                                          message:
+                                              "Please select a image file first.",
+                                        ),
+                                      );
                                     }
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.success(
-                                        message: "File upload successfully",
-                                      ),
-                                    );
-                                  } else if (path2.isNotEmpty) {
-                                    final String v4 = uuid.v4();
-                                    for (int i = 0; i < path2.length; i++) {
-                                      imageUpload1(v4, path2[i]);
-                                    }
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.success(
-                                        message: "File upload successfully",
-                                      ),
-                                    );
-                                  } else {
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.error(
-                                        message:
-                                            "Please select a image file first.",
-                                      ),
-                                    );
-                                  }
-                                },
-                                child: Expanded(
+                                  },
                                   child: Container(
                                       color: ColorCode.orange,
                                       width: 250,
@@ -212,27 +210,28 @@ class _ImageToQrState extends State<ImageToQr> {
                                             ),
                                           )
                                         ],
-                                      )),
-                                ))
-                          ],
-                        ),
-                      ],
+                                      )))
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            );
-          } else {
-            return const DesktopViewImage(
-              title: "IMAGE TO QR CODE",
-              browse: "Browse",
-              generate: "Generate",
-              icon1: Icons.insert_drive_file,
-              icon2: Icons.check,
-            );
-          }
-        },
-      );
+                  ],
+                ),
+              );
+            } 
+            else {
+              return const DesktopViewImage(
+                title: "IMAGE TO QR CODE",
+                browse: "Browse",
+                generate: "Generate",
+                icon1: Icons.insert_drive_file,
+                icon2: Icons.check,
+              );
+            }
+          },
+        ),
+  );
   FilePickerResult? bytesFromPicker;
   List<Uint8List?> img = <Uint8List?>[];
   Future<void> multipleimage() async {
