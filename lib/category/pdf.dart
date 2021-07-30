@@ -25,9 +25,8 @@ class _PdfToQrState extends State<PdfToQr> {
   Uuid uuid = const Uuid();
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-          builder: (BuildContext context, BoxConstraints constraints) {
-        if (constraints.maxWidth < 768) {
+  Widget build(BuildContext context) => LayoutBuilder(builder: (_, __) {
+        if (__.maxWidth < 768) {
           return Expanded(
             flex: 5,
             child: SizedBox(
@@ -210,9 +209,6 @@ class _PdfToQrState extends State<PdfToQr> {
                               ),
                             ),
                           ],
-                        ),
-                        const SizedBox(
-                          height: 10,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,

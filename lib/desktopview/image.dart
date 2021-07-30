@@ -191,7 +191,6 @@ printer took a galley of type and scrambled it to make a type specimen book""",
   Future<void> multipleimage() async {
     bytesFromPicker = await FilePicker.platform
         .pickFiles(allowMultiple: true, type: FileType.image);
-    // await ImagePickerWeb.getMultiImages(outputType: ImageType.bytes);
 
     if (bytesFromPicker != null) {
       img =
@@ -213,8 +212,7 @@ printer took a galley of type and scrambled it to make a type specimen book""",
         ),
         itemCount: path1.length,
         key: sslkey,
-        // carouselController: _controller,
-        itemBuilder: (context, int index, int pageViewIndex) =>
+        itemBuilder: (_,__,___) =>
             Column(
           children: <Widget>[
             SizedBox(
@@ -227,7 +225,7 @@ printer took a galley of type and scrambled it to make a type specimen book""",
                       children: <Widget>[
                         GestureDetector(
                           child: Image.memory(
-                            path1[index],
+                            path1[__],
                             // fit: BoxFit.contain,
                             height: MediaQuery.of(context).size.height * 0.40,
                             width: MediaQuery.of(context).size.width * 0.40,
@@ -242,7 +240,7 @@ printer took a galley of type and scrambled it to make a type specimen book""",
                       onPressed: () {
                         debugPrint("${path1.length}");
                         setState(() {
-                          path1.remove(path1[index]);
+                          path1.remove(path1[__]);
                         });
                       },
                       icon: const Icon(Icons.close)),

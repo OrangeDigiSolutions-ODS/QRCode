@@ -1,5 +1,8 @@
 import "dart:io";
+import "dart:typed_data";
 import "package:carousel_slider/carousel_slider.dart";
+import "package:file_picker/file_picker.dart";
+import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:images_picker/images_picker.dart";
 import "package:top_snackbar_flutter/custom_snack_bar.dart";
@@ -21,21 +24,48 @@ class _ImageToQrState extends State<ImageToQr> {
   Uuid uuid = const Uuid();
   List<String> path1 = <String>[];
   List<Media>? res;
+  List<Uint8List> path2 = <Uint8List>[];
   @override
   Widget build(BuildContext context) => LayoutBuilder(
-        builder: (_,__) {
+        builder: (_, __) {
           if (__.maxWidth < 768) {
-            return Expanded(
-              flex: 5,
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.77,
-                child: Column(
-                  children: <Widget>[
-                    MobileView(path1: path1, res: res),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Column(
-                        children: <Widget>[
+            return SizedBox(
+              height: MediaQuery.of(context).size.height * 0.77,
+              child: Column(
+                children: <Widget>[
+                  MobileView(path1: path1, path2: path2, res: res),
+                  Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: Column(
+                      children: <Widget>[
+                        if (kIsWeb)
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: ColorCode.white,
+                                  side: BorderSide(color: ColorCode.black)),
+                              onPressed: multipleimage,
+                              child: Expanded(
+                                child: SizedBox(
+                                    width: 250,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Icon(
+                                          Icons.insert_drive_file,
+                                          color: ColorCode.black,
+                                        ),
+                                        Text(
+                                          "Browse",
+                                          style: TextStyle(
+                                            color: ColorCode.black,
+                                            fontSize: 18,
+                                          ),
+                                        )
+                                      ],
+                                    )),
+                              ))
+                        else if (Platform.isAndroid)
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -123,66 +153,73 @@ class _ImageToQrState extends State<ImageToQr> {
                               ),
                             ],
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: ColorCode.orange),
-                                  onPressed: () {
-                                    if (path1.isNotEmpty) {
-                                      final String v4 = uuid.v4();
-                                      for (int i = 0; i < path1.length; i++) {
-                                        imageUpload(v4, path1[i]);
-                                      }
-                                      showTopSnackBar(
-                                        context,
-                                        const CustomSnackBar.success(
-                                          message: "File upload successfully",
-                                        ),
-                                      );
-                                    } else {
-                                      showTopSnackBar(
-                                        context,
-                                        const CustomSnackBar.error(
-                                          message:
-                                              "Please select a image file first.",
-                                        ),
-                                      );
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    primary: ColorCode.orange),
+                                onPressed: () {
+                                  if (path1.isNotEmpty) {
+                                    final String v4 = uuid.v4();
+                                    for (int i = 0; i < path1.length; i++) {
+                                      imageUpload(v4, path1[i]);
                                     }
-                                  },
-                                  child: Expanded(
-                                    child: Container(
-                                        color: ColorCode.orange,
-                                        width: 250,
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: <Widget>[
-                                            Icon(
-                                              Icons.check,
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.success(
+                                        message: "File upload successfully",
+                                      ),
+                                    );
+                                  } else if (path2.isNotEmpty) {
+                                    final String v4 = uuid.v4();
+                                    for (int i = 0; i < path2.length; i++) {
+                                      imageUpload1(v4, path2[i]);
+                                    }
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.success(
+                                        message: "File upload successfully",
+                                      ),
+                                    );
+                                  } else {
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.error(
+                                        message:
+                                            "Please select a image file first.",
+                                      ),
+                                    );
+                                  }
+                                },
+                                child: Expanded(
+                                  child: Container(
+                                      color: ColorCode.orange,
+                                      width: 250,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Icon(
+                                            Icons.check,
+                                            color: ColorCode.white,
+                                          ),
+                                          Text(
+                                            "Create Qr",
+                                            style: TextStyle(
                                               color: ColorCode.white,
+                                              fontSize: 18,
                                             ),
-                                            Text(
-                                              "Create Qr",
-                                              style: TextStyle(
-                                                color: ColorCode.white,
-                                                fontSize: 18,
-                                              ),
-                                            )
-                                          ],
-                                        )),
-                                  ))
-                            ],
-                          ),
-                        ],
-                      ),
+                                          )
+                                        ],
+                                      )),
+                                ))
+                          ],
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             );
           } else {
@@ -196,17 +233,35 @@ class _ImageToQrState extends State<ImageToQr> {
           }
         },
       );
+  FilePickerResult? bytesFromPicker;
+  List<Uint8List?> img = <Uint8List?>[];
+  Future<void> multipleimage() async {
+    bytesFromPicker = await FilePicker.platform
+        .pickFiles(allowMultiple: true, type: FileType.image);
+
+    if (bytesFromPicker != null) {
+      img =
+          bytesFromPicker!.files.map((_) => _.bytes).cast<Uint8List>().toList();
+      setState(() {
+        for (int i = 0; i < img.length; i++) {
+          path2.add(img[i]!);
+        }
+      });
+    }
+  }
 }
 
 // ignore: must_be_immutable
 class MobileView extends StatefulWidget {
   MobileView({
     required this.path1,
+    required this.path2,
     required this.res,
     Key? key,
   }) : super(key: key);
   List<String> path1 = <String>[];
   List<Media>? res;
+  List<Uint8List> path2 = <Uint8List>[];
 
   @override
   _MobileViewState createState() => _MobileViewState();
@@ -224,10 +279,20 @@ class _MobileViewState extends State<MobileView> {
               child: Column(
                 children: <Widget>[
                   if (widget.path1.isNotEmpty)
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.40,
-                      width: MediaQuery.of(context).size.width,
-                      child: slider(sslKey),
+                    Card(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.40,
+                        width: MediaQuery.of(context).size.width,
+                        child: slider(sslKey),
+                      ),
+                    )
+                  else if (widget.path2.isNotEmpty)
+                    Card(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.40,
+                        width: MediaQuery.of(context).size.width,
+                        child: slider1(sslKey),
+                      ),
                     )
                   else
                     Image.asset(
@@ -251,8 +316,10 @@ class _MobileViewState extends State<MobileView> {
         ],
       );
 
-  Widget slider(GlobalKey<CarouselSliderState> sslkey) =>
-      CarouselSlider.builder(
+  Widget slider(GlobalKey<CarouselSliderState> sslkey) => SizedBox(
+      height: MediaQuery.of(context).size.height * 0.40,
+      width: MediaQuery.of(context).size.width * 0.40,
+      child: CarouselSlider.builder(
         options: CarouselOptions(
           enableInfiniteScroll: false,
           viewportFraction: 0.9,
@@ -260,9 +327,7 @@ class _MobileViewState extends State<MobileView> {
         ),
         itemCount: widget.path1.length,
         key: sslkey,
-        // carouselController: _controller,
-        itemBuilder: (BuildContext context, int index, int pageViewIndex) =>
-            Column(
+        itemBuilder: (_, __, ___) => Column(
           children: <Widget>[
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.38,
@@ -274,8 +339,7 @@ class _MobileViewState extends State<MobileView> {
                       children: <Widget>[
                         GestureDetector(
                           child: Image.file(
-                            File(widget.path1[pageViewIndex]),
-                            // fit: BoxFit.contain,
+                            File(widget.path1[___]),
                             height: MediaQuery.of(context).size.height * 0.40,
                             width: MediaQuery.of(context).size.width * 0.40,
                           ),
@@ -289,7 +353,7 @@ class _MobileViewState extends State<MobileView> {
                       onPressed: () {
                         debugPrint("${widget.path1.length}");
                         setState(() {
-                          widget.path1.remove(widget.path1[index]);
+                          widget.path1.remove(widget.path1[__]);
                         });
                       },
                       icon: const Icon(Icons.close)),
@@ -320,7 +384,78 @@ class _MobileViewState extends State<MobileView> {
             ),
           ],
         ),
-      );
+      ));
+
+  Widget slider1(GlobalKey<CarouselSliderState> sslkey) => SizedBox(
+      height: MediaQuery.of(context).size.height * 0.40,
+      width: MediaQuery.of(context).size.width * 0.40,
+      child: CarouselSlider.builder(
+        options: CarouselOptions(
+          enableInfiniteScroll: false,
+          viewportFraction: 0.9,
+          aspectRatio: 1,
+        ),
+        itemCount: widget.path2.length,
+        key: sslkey,
+        // carouselController: _controller,
+        itemBuilder: (_, __, ___) => Column(
+          children: <Widget>[
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.38,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(children: <Widget>[
+                Center(
+                  child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        GestureDetector(
+                          child: Image.memory(
+                            widget.path2[___],
+                            height: MediaQuery.of(context).size.height * 0.40,
+                            width: MediaQuery.of(context).size.width * 0.40,
+                          ),
+                        ),
+                      ]),
+                ),
+                Container(
+                  alignment: Alignment.topRight,
+                  margin: const EdgeInsets.fromLTRB(0, 20, 20, 0),
+                  child: IconButton(
+                      onPressed: () {
+                        debugPrint("${widget.path2.length}");
+                        setState(() {
+                          widget.path2.remove(widget.path2[__]);
+                        });
+                      },
+                      icon: const Icon(Icons.close)),
+                ),
+                Container(
+                  alignment: Alignment.centerLeft,
+                  margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+                  child: IconButton(
+                      onPressed: () {
+                        sslkey.currentState!.pageController!.previousPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.linear);
+                      },
+                      icon: const Icon(Icons.keyboard_arrow_left)),
+                ),
+                Container(
+                  alignment: Alignment.centerRight,
+                  margin: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+                  child: IconButton(
+                      onPressed: () {
+                        sslkey.currentState!.pageController!.nextPage(
+                            duration: const Duration(milliseconds: 300),
+                            curve: Curves.linear);
+                      },
+                      icon: const Icon(Icons.keyboard_arrow_right)),
+                ),
+              ]),
+            ),
+          ],
+        ),
+      ));
 }
 
 

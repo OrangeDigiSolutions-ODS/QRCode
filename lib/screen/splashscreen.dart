@@ -3,7 +3,7 @@ import "package:flutter/material.dart";
 import "package:shared_preferences/shared_preferences.dart";
 import "/colors/colorcode.dart";
 import "/components/bottombar.dart";
-import "desktopdesign.dart";
+import "/desktopview/desktopdesign.dart";
 import "sliderpage.dart";
 
 class SplashScreen extends StatefulWidget {
