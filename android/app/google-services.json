@@ -91,6 +91,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:441661941789:android:0f5adc41c31f146ec33ef4",
+        "android_client_info": {
+          "package_name": "com.orangedigi.qrcode"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "441661941789-shmteq6scq0bfb5nu1o1sg0q2nue2ik2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAv_mQjY-qy9d_LVTj7Yc_54n3J0N7dMlM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "441661941789-shmteq6scq0bfb5nu1o1sg0q2nue2ik2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"

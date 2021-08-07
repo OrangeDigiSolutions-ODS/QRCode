@@ -10,13 +10,14 @@ import "package:qrcode/desktopview/image.dart";
 import "package:qrcode/desktopview/pdf.dart";
 import "package:qrcode/main.dart";
 import "package:network_image_mock/network_image_mock.dart";
+import "package:qrcode/qrviewer/qr.dart";
 import "package:qrcode/screen/sliderpage.dart";
 import "package:qrcode/screen/splashscreen.dart";
 
 void main() {
   testWidgets("Material App testing", (_) async {
     await _.pumpWidget(const QRCode());
-    expect(find.byType(MaterialApp), findsOneWidget);
+    expect(find.byType(MaterialApp), findsWidgets);
   });
 
   testWidgets("splash App testing", (_) async {
@@ -62,6 +63,14 @@ void main() {
   testWidgets("Pdf to QR testing", (_) async {
     await _.pumpWidget(const MaterialApp(
       home: PdfToQr(),
+    ));
+    expect(find.byType(MaterialApp), findsOneWidget);
+  });
+  testWidgets("QRPage testing", (_) async {
+    await _.pumpWidget(MaterialApp(
+      home: QRPage(
+        url: "hello",
+      ),
     ));
     expect(find.byType(MaterialApp), findsOneWidget);
   });

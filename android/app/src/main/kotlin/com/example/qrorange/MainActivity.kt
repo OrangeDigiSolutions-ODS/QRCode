@@ -1,4 +1,4 @@
-package com.example.qrorange
+package com.orangedigi.qrorange
 
 import io.flutter.embedding.android.FlutterActivity
 

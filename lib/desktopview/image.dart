@@ -9,6 +9,7 @@ import "package:uuid/uuid.dart";
 import "/colors/colorcode.dart";
 import "/components/topbar.dart";
 import "/firebase/imageuploader.dart";
+import "/qrviewer/qr.dart";
 
 class DesktopViewImage extends StatefulWidget {
   const DesktopViewImage({
@@ -33,6 +34,8 @@ class _DesktopViewImageState extends State<DesktopViewImage> {
   Uuid uuid = const Uuid();
   List<Uint8List> path1 = <Uint8List>[];
   GlobalKey<CarouselSliderState> sslKey = GlobalKey();
+  bool waiting = false;
+  String createQR = "Generate";
   @override
   Widget build(BuildContext context) => SizedBox(
         height: MediaQuery.of(context).size.height * 0.82,
@@ -43,10 +46,10 @@ class _DesktopViewImageState extends State<DesktopViewImage> {
               height: MediaQuery.of(context).size.height * 0.02,
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: Column(
                     children: <Widget>[
                       if (path1.isNotEmpty)
@@ -78,12 +81,12 @@ class _DesktopViewImageState extends State<DesktopViewImage> {
                 SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SizedBox(
                         height: MediaQuery.of(context).size.height * 0.4,
                         child: AutoSizeText(
-                            """Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book""",
+                            """Browse single or multiple images from the system""",
                             wrapWords: false,
                             maxLines: 10,
                             style: TextStyle(
@@ -135,25 +138,45 @@ class _DesktopViewImageState extends State<DesktopViewImage> {
                                 primary: ColorCode.orange,
                               ),
                               onPressed: () {
-                                if (path1.isNotEmpty) {
+                                if (path1.isNotEmpty && waiting == false) {
                                   final String v4 = uuid.v4();
+                                  setState(() {
+                                    waiting = true;
+                                    createQR = "waiting..";
+                                  });
                                   for (int i = 0; i < path1.length; i++) {
-                                    imageUpload1(v4, path1[i]);
+                                    imageUpload1(v4, path1[i]).then((_) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute<dynamic>(
+                                              builder: (_) => QRPage(
+                                                  url:
+                                                      "https://instagram-clone-db971.web.app/images/viewqr?id=$v4")));
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.success(
+                                          message: "File upload successfully",
+                                        ),
+                                      );
+                                    });
                                   }
-                                  showTopSnackBar(
-                                    context,
-                                    const CustomSnackBar.success(
-                                      message: "File upload successfully",
-                                    ),
-                                  );
                                 } else {
-                                  showTopSnackBar(
-                                    context,
-                                    const CustomSnackBar.error(
-                                      message:
-                                          "Please select a image file first.",
-                                    ),
-                                  );
+                                  if (waiting == true) {
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.error(
+                                        message: "wait until file upload",
+                                      ),
+                                    );
+                                  } else {
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.error(
+                                        message:
+                                            "Please select a image file first.",
+                                      ),
+                                    );
+                                  }
                                 }
                               },
                               child: Container(
@@ -169,7 +192,7 @@ class _DesktopViewImageState extends State<DesktopViewImage> {
                                       ),
                                       Center(
                                         child: Text(
-                                          widget.generate,
+                                          createQR,
                                           style: TextStyle(
                                             color: ColorCode.white,
                                             fontSize: 18,

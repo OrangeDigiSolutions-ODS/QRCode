@@ -1,4 +1,4 @@
-package com.example.qrcode
+package com.orangedigi.qrcode
 
 import io.flutter.embedding.android.FlutterActivity
 

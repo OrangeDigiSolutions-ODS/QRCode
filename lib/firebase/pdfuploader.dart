@@ -18,7 +18,7 @@ Future<String> pdfUpload(String v4, Uint8List path1) async {
         .doc(v4)
         .set(<String, String>{"0": downUrl});
   });
-  return v4;
+  return downUrl=await firebaseStorage.getDownloadURL();
 }
 
 Future<String> pdfUpload1(String v4, File path2) async {
@@ -36,5 +36,5 @@ Future<String> pdfUpload1(String v4, File path2) async {
         .doc(v4)
         .set(<String, String>{"0": downUrl});
   });
-  return v4;
+  return downUrl=await firebaseStorage.getDownloadURL();
 }

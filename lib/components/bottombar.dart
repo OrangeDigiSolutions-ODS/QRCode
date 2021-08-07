@@ -19,6 +19,7 @@ class _BottomBarState extends State<BottomBar> {
   static const List<Widget> _widgetOptions = <Widget>[
     Category(),
     ScanPage(),
+    // ViewQRPDF()
   ];
 
   void _onItemTapped(int index) {

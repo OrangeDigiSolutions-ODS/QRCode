@@ -12,6 +12,7 @@ import "/colors/colorcode.dart";
 import "/components/topbar.dart";
 import "/desktopview/image.dart";
 import "/firebase/imageuploader.dart";
+import "/qrviewer/qr.dart";
 
 class ImageToQr extends StatefulWidget {
   const ImageToQr({Key? key}) : super(key: key);
@@ -25,13 +26,15 @@ class _ImageToQrState extends State<ImageToQr> {
   List<String> path1 = <String>[];
   List<Media>? res;
   List<Uint8List> path2 = <Uint8List>[];
+  bool waiting = false;
+  String createQR = "Create QR";
   @override
   Widget build(BuildContext context) => SafeArea(
-    child: LayoutBuilder(
+        child: LayoutBuilder(
           builder: (_, __) {
             if (__.maxWidth < 768) {
               return SizedBox(
-                height: MediaQuery.of(context).size.height * 0.77,
+                height: MediaQuery.of(context).size.height * 0.74,
                 child: Column(
                   children: <Widget>[
                     MobileView(path1: path1, path2: path2, res: res),
@@ -73,7 +76,6 @@ class _ImageToQrState extends State<ImageToQr> {
                                     List<String> img = <String>[];
                                     res = await ImagesPicker.openCamera(
                                       quality: 0.5,
-                                      cropOpt: CropOption(),
                                     );
                                     if (res != null) {
                                       img = res!.map((_) => _.path).toList();
@@ -144,7 +146,8 @@ class _ImageToQrState extends State<ImageToQr> {
                                         ),
                                         Text(
                                           "Gallery",
-                                          style: TextStyle(color: ColorCode.grey),
+                                          style:
+                                              TextStyle(color: ColorCode.grey),
                                         ),
                                       ],
                                     ),
@@ -152,75 +155,101 @@ class _ImageToQrState extends State<ImageToQr> {
                                 ),
                               ],
                             ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      primary: ColorCode.orange),
-                                  onPressed: () {
-                                    if (path1.isNotEmpty) {
-                                      final String v4 = uuid.v4();
-                                      for (int i = 0; i < path1.length; i++) {
-                                        imageUpload(v4, path1[i]);
-                                      }
+                          ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  primary: ColorCode.orange),
+                              onPressed: () {
+                                
+                                if (path1.isNotEmpty && waiting == false) {
+                                  final String v4 = uuid.v4();
+                                  setState(() {
+                                    waiting = true;
+                                    createQR = "waiting..";
+                                  });
+                                  for (int i = 0; i < path1.length; i++) {
+                                    imageUpload(v4, path1[i]).then((__) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute<dynamic>(
+                                              builder: (_) => QRPage(
+                                                  url:
+                                                      "https://instagram-clone-db971.web.app/images/viewqr?id=$v4")));
                                       showTopSnackBar(
                                         context,
                                         const CustomSnackBar.success(
                                           message: "File upload successfully",
                                         ),
                                       );
-                                    } else if (path2.isNotEmpty) {
-                                      final String v4 = uuid.v4();
-                                      for (int i = 0; i < path2.length; i++) {
-                                        imageUpload1(v4, path2[i]);
-                                      }
+                                    });
+                                  }
+                                } else if (path2.isNotEmpty &&
+                                    waiting == false) {
+                                  setState(() {
+                                    waiting = true;
+                                    createQR = "waiting..";
+                                  });
+                                  final String v4 = uuid.v4();
+                                  for (int i = 0; i < path2.length; i++) {
+                                    imageUpload1(v4, path2[i]).then((_) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute<dynamic>(
+                                              builder: (_) => QRPage(
+                                                  url:
+                                                      "https://instagram-clone-db971.web.app/images/viewqr?id=$v4")));
                                       showTopSnackBar(
                                         context,
                                         const CustomSnackBar.success(
                                           message: "File upload successfully",
                                         ),
                                       );
-                                    } else {
-                                      showTopSnackBar(
-                                        context,
-                                        const CustomSnackBar.error(
-                                          message:
-                                              "Please select a image file first.",
+                                    });
+                                  }
+                                } else {
+                                  if (waiting == true) {
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.error(
+                                        message: "wait until file upload",
+                                      ),
+                                    );
+                                  } else {
+                                    showTopSnackBar(
+                                      context,
+                                      const CustomSnackBar.error(
+                                        message:
+                                            "Please select a image file first.",
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                              child: Container(
+                                  color: ColorCode.orange,
+                                  width: 250,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Icon(
+                                        Icons.check,
+                                        color: ColorCode.white,
+                                      ),
+                                      Text(
+                                        createQR,
+                                        style: TextStyle(
+                                          color: ColorCode.white,
+                                          fontSize: 18,
                                         ),
-                                      );
-                                    }
-                                  },
-                                  child: Container(
-                                      color: ColorCode.orange,
-                                      width: 250,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Icon(
-                                            Icons.check,
-                                            color: ColorCode.white,
-                                          ),
-                                          Text(
-                                            "Create Qr",
-                                            style: TextStyle(
-                                              color: ColorCode.white,
-                                              fontSize: 18,
-                                            ),
-                                          )
-                                        ],
-                                      )))
-                            ],
-                          ),
+                                      )
+                                    ],
+                                  ))),
                         ],
                       ),
                     ),
                   ],
                 ),
               );
-            } 
-            else {
+            } else {
               return const DesktopViewImage(
                 title: "IMAGE TO QR CODE",
                 browse: "Browse",
@@ -231,7 +260,7 @@ class _ImageToQrState extends State<ImageToQr> {
             }
           },
         ),
-  );
+      );
   FilePickerResult? bytesFromPicker;
   List<Uint8List?> img = <Uint8List?>[];
   Future<void> multipleimage() async {
@@ -273,14 +302,14 @@ class _MobileViewState extends State<MobileView> {
         children: <Widget>[
           const TopBar(title: "IMAGE TO QR CODE"),
           Container(
-            margin: const EdgeInsets.only(top: 100),
+            margin: const EdgeInsets.only(top: 90),
             child: Center(
               child: Column(
                 children: <Widget>[
                   if (widget.path1.isNotEmpty)
                     Card(
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.40,
+                        height: MediaQuery.of(context).size.height * 0.38,
                         width: MediaQuery.of(context).size.width,
                         child: slider(sslKey),
                       ),
@@ -288,7 +317,7 @@ class _MobileViewState extends State<MobileView> {
                   else if (widget.path2.isNotEmpty)
                     Card(
                       child: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.40,
+                        height: MediaQuery.of(context).size.height * 0.38,
                         width: MediaQuery.of(context).size.width,
                         child: slider1(sslKey),
                       ),
@@ -316,7 +345,7 @@ class _MobileViewState extends State<MobileView> {
       );
 
   Widget slider(GlobalKey<CarouselSliderState> sslkey) => SizedBox(
-      height: MediaQuery.of(context).size.height * 0.40,
+      height: MediaQuery.of(context).size.height * 0.38,
       width: MediaQuery.of(context).size.width * 0.40,
       child: CarouselSlider.builder(
         options: CarouselOptions(
@@ -339,7 +368,7 @@ class _MobileViewState extends State<MobileView> {
                         GestureDetector(
                           child: Image.file(
                             File(widget.path1[___]),
-                            height: MediaQuery.of(context).size.height * 0.40,
+                            height: MediaQuery.of(context).size.height * 0.38,
                             width: MediaQuery.of(context).size.width * 0.40,
                           ),
                         ),
@@ -386,7 +415,7 @@ class _MobileViewState extends State<MobileView> {
       ));
 
   Widget slider1(GlobalKey<CarouselSliderState> sslkey) => SizedBox(
-      height: MediaQuery.of(context).size.height * 0.40,
+      height: MediaQuery.of(context).size.height * 0.38,
       width: MediaQuery.of(context).size.width * 0.40,
       child: CarouselSlider.builder(
         options: CarouselOptions(

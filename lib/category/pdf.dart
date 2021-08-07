@@ -11,6 +11,7 @@ import "/colors/colorcode.dart";
 import "/components/topbar.dart";
 import "/desktopview/pdf.dart";
 import "/firebase/pdfuploader.dart";
+import "/qrviewer/qr.dart";
 
 class PdfToQr extends StatefulWidget {
   const PdfToQr({Key? key}) : super(key: key);
@@ -23,26 +24,28 @@ class _PdfToQrState extends State<PdfToQr> {
   Uint8List? path1;
   File? path2;
   Uuid uuid = const Uuid();
+  bool waiting = false;
+  String createQR = "Create QR";
 
   @override
   Widget build(BuildContext context) => LayoutBuilder(builder: (_, __) {
         if (__.maxWidth < 768) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.77,
+            height: MediaQuery.of(context).size.height * 0.74,
             child: Column(
               children: <Widget>[
                 Stack(
                   children: <Widget>[
                     const TopBar(title: "PDF TO QR CODE"),
                     Container(
-                      margin: const EdgeInsets.only(top: 100),
+                      margin: const EdgeInsets.only(top: 90),
                       child: Center(
                         child: Column(
                           children: <Widget>[
                             if (path1 != null || path2 != null)
                               SizedBox(
-                                  height: MediaQuery.of(context).size.height *
-                                      0.40,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.40,
                                   width: MediaQuery.of(context).size.width,
                                   child: Column(
                                     children: <Widget>[
@@ -60,16 +63,14 @@ class _PdfToQrState extends State<PdfToQr> {
                                               if (path1 != null)
                                                 SfPdfViewer.memory(
                                                   path1!,
-                                                  enableDoubleTapZooming:
-                                                      false,
+                                                  enableDoubleTapZooming: false,
                                                 )
                                               else
                                                 const SizedBox.shrink(),
                                               if (path2 != null)
                                                 SfPdfViewer.file(
                                                   path2!,
-                                                  enableDoubleTapZooming:
-                                                      false,
+                                                  enableDoubleTapZooming: false,
                                                 )
                                               else
                                                 const SizedBox.shrink()
@@ -121,8 +122,7 @@ class _PdfToQrState extends State<PdfToQr> {
                                       showTopSnackBar(
                                         context,
                                         const CustomSnackBar.success(
-                                          message:
-                                              "File selected successfully",
+                                          message: "File selected successfully",
                                         ),
                                       );
                                       final List<Uint8List?> res =
@@ -156,8 +156,7 @@ class _PdfToQrState extends State<PdfToQr> {
                                       showTopSnackBar(
                                         context,
                                         const CustomSnackBar.success(
-                                          message:
-                                              "File selected successfully",
+                                          message: "File selected successfully",
                                         ),
                                       );
                                       final File file1 = File(file.path!);
@@ -184,8 +183,7 @@ class _PdfToQrState extends State<PdfToQr> {
                                     width: 0.9, color: ColorCode.orange),
                                 primary: ColorCode.white,
                                 textStyle: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold)),
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
                             child: SizedBox(
                               width: MediaQuery.of(context).size.width * 0.66,
                               child: Row(
@@ -216,52 +214,87 @@ class _PdfToQrState extends State<PdfToQr> {
                                   primary: ColorCode.orange),
                               onPressed: () {
                                 if (kIsWeb) {
-                                  if (path1 != null) {
+                                  if (path1 != null && waiting == false) {
                                     final String v4 = uuid.v4();
-                                    pdfUpload(v4, path1!);
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.success(
-                                        message: "File upload successfully",
-                                      ),
-                                    );
+                                    setState(() {
+                                      waiting = true;
+                                      createQR = "waiting..";
+                                    });
+                                    pdfUpload(v4, path1!).then((__) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute<dynamic>(
+                                              builder: (_) => QRPage(url: __)));
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.success(
+                                          message: "File upload successfully",
+                                        ),
+                                      );
+                                    });
                                   } else {
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.error(
-                                        message:
-                                            "Please select a pdf file first.",
-                                      ),
-                                    );
+                                    if (waiting == true) {
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.error(
+                                          message: "wait until file upload",
+                                        ),
+                                      );
+                                    } else {
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.error(
+                                          message:
+                                              "Please select a image file first.",
+                                        ),
+                                      );
+                                    }
                                   }
                                 } else if (Platform.isAndroid) {
-                                  if (path2 != null) {
+                                  if (path2 != null && waiting == false) {
                                     final String v4 = uuid.v4();
-                                    pdfUpload1(v4, path2!);
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.success(
-                                        message: "File upload successfully",
-                                      ),
-                                    );
+                                    setState(() {
+                                      waiting = true;
+                                      createQR = "waiting..";
+                                    });
+                                    pdfUpload1(v4, path2!).then((__) {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute<dynamic>(
+                                              builder: (_) => QRPage(url: __)));
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.success(
+                                          message: "File upload successfully",
+                                        ),
+                                      );
+                                    });
                                   } else {
-                                    showTopSnackBar(
-                                      context,
-                                      const CustomSnackBar.error(
-                                        message:
-                                            "Please select a pdf file first.",
-                                      ),
-                                    );
+                                    if (waiting == true) {
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.error(
+                                          message: "wait until file upload",
+                                        ),
+                                      );
+                                    } else {
+                                      showTopSnackBar(
+                                        context,
+                                        const CustomSnackBar.error(
+                                          message:
+                                              "Please select a pdf file first.",
+                                        ),
+                                      );
+                                    }
                                   }
                                 }
                               },
                               child: Container(
                                   color: ColorCode.orange,
-                                  width: MediaQuery.of(context).size.width *
-                                      0.66,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.66,
                                   child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Icon(
                                         Icons.check,
@@ -271,7 +304,7 @@ class _PdfToQrState extends State<PdfToQr> {
                                         width: 10,
                                       ),
                                       Text(
-                                        "Create Qr",
+                                        createQR,
                                         style: TextStyle(
                                           color: ColorCode.white,
                                           fontSize: 18,

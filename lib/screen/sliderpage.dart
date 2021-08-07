@@ -22,7 +22,7 @@ class _SliderPageState extends State<SliderPage> {
 
   @override
   Widget build(BuildContext context) {
-    final double height = MediaQuery.of(context).size.height * 0.70;
+    final double height = MediaQuery.of(context).size.height * 0.65;
     return SafeArea(
       child: SizedBox(
         height: MediaQuery.of(context).size.height * 0.1,

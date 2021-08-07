@@ -25,8 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
     initScreen = preferences.getInt("initScreen");
     await preferences.setInt("initScreen", 1);
     Timer(
-        const Duration(seconds: 1),
-        () => Navigator.pushReplacement(context,
+        const Duration(seconds: 3),
+        () => 
+        Navigator.pushReplacement(context,
                 MaterialPageRoute<Widget>(builder: (_) {
               if (initScreen == 1) {
                 return LayoutBuilder(builder: (_, __) {
