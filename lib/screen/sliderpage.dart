@@ -1,6 +1,7 @@
 import "package:carousel_slider/carousel_slider.dart";
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
+import "/colors/colorcode.dart";
 import "/components/bottombar.dart";
 
 final List<String> imgList = <String>[
@@ -24,7 +25,8 @@ class _SliderPageState extends State<SliderPage> {
   Widget build(BuildContext context) {
     final double height = MediaQuery.of(context).size.height * 0.65;
     return SafeArea(
-      child: SizedBox(
+      child: Container(
+        color: ColorCode.white,
         height: MediaQuery.of(context).size.height * 0.1,
         child: Column(
           children: <Widget>[

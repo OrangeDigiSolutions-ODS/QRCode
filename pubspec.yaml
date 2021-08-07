@@ -32,7 +32,6 @@ dependencies:
   firebase_storage: ^10.0.1
   flutter:
     sdk: flutter
-  flutter_qr_reader: ^1.0.5
   flutter_screenutil: ^5.0.0+2
   hexcolor: ^2.0.4
   images_picker: ^1.2.4

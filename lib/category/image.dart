@@ -75,8 +75,7 @@ class _ImageToQrState extends State<ImageToQr> {
                                   onPressed: () async {
                                     List<String> img = <String>[];
                                     res = await ImagesPicker.openCamera(
-                                      quality: 0.5,
-                                    );
+                                        quality: 0.5, cropOpt: CropOption());
                                     if (res != null) {
                                       img = res!.map((_) => _.path).toList();
                                       setState(() {
@@ -159,7 +158,6 @@ class _ImageToQrState extends State<ImageToQr> {
                               style: ElevatedButton.styleFrom(
                                   primary: ColorCode.orange),
                               onPressed: () {
-                                
                                 if (path1.isNotEmpty && waiting == false) {
                                   final String v4 = uuid.v4();
                                   setState(() {
@@ -167,13 +165,13 @@ class _ImageToQrState extends State<ImageToQr> {
                                     createQR = "waiting..";
                                   });
                                   for (int i = 0; i < path1.length; i++) {
-                                    imageUpload(v4, path1[i]).then((__) {
+                                    imageUpload(v4, path1[i]).whenComplete(() {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute<dynamic>(
                                               builder: (_) => QRPage(
                                                   url:
-                                                      "https://instagram-clone-db971.web.app/images/viewqr?id=$v4")));
+                                                      "https://crud-operation-cdbf0.web.app/images/viewqr?id=$v4")));
                                       showTopSnackBar(
                                         context,
                                         const CustomSnackBar.success(
@@ -190,13 +188,13 @@ class _ImageToQrState extends State<ImageToQr> {
                                   });
                                   final String v4 = uuid.v4();
                                   for (int i = 0; i < path2.length; i++) {
-                                    imageUpload1(v4, path2[i]).then((_) {
+                                    imageUpload1(v4, path2[i]).whenComplete((){
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute<dynamic>(
                                               builder: (_) => QRPage(
                                                   url:
-                                                      "https://instagram-clone-db971.web.app/images/viewqr?id=$v4")));
+                                                      "https://crud-operation-cdbf0.web.app/images/viewqr?id=$v4")));
                                       showTopSnackBar(
                                         context,
                                         const CustomSnackBar.success(

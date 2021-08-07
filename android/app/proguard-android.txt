@@ -6,7 +6,7 @@
 -keep class io.flutter.**  { *; }
 -keep class io.flutter.plugins.**  { *; }
 -keep class com.google.firebase.** { *; }
--keep class com.lsl.flutterplugin17.** { *;}
+-keep class com.lsl.flutterplugin17.** { *; }
 -keep class com.luck.picture.lib.** { *; }
 -dontwarn com.yalantis.ucrop**
 -keep class com.yalantis.ucrop** { *; }

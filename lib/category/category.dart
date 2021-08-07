@@ -37,6 +37,7 @@ class CategoryState extends State<Category> {
     ];
     return SafeArea(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           page[indexpage],
           Container(
@@ -164,10 +165,12 @@ class CategoryState extends State<Category> {
                                           ), //BoxShadow
                                         ]),
                                     child: SizedBox(
-                                      height: MediaQuery.of(context).size.height *
-                                        0.6,
-                                    width: MediaQuery.of(context).size.height *
-                                        0.11,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.6,
+                                      width:
+                                          MediaQuery.of(context).size.height *
+                                              0.11,
                                       child: Card(
                                         child: Column(
                                           children: <Widget>[

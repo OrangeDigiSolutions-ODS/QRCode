@@ -52,7 +52,7 @@ class _QRPageState extends State<QRPage> {
         break;
       }
     }
-    newPath = "$newPath/QrGenerator";
+    newPath = "$newPath/QRange";
     directory = Directory(newPath);
     // ignore: avoid_slow_async_io
     if (!await directory.exists()) {
@@ -108,9 +108,7 @@ class _QRPageState extends State<QRPage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.4,
                 // width: MediaQuery.of(context).size.width * 0.4,
-                child: RepaintBoundary(
-                    key: _globalKey,
-                    child: buildQR()),
+                child: RepaintBoundary(key: _globalKey, child: buildQR()),
               ),
               Container(
                 // padding: const EdgeInsets.fromLTRB(5, 9, 5, 10),
@@ -125,8 +123,7 @@ class _QRPageState extends State<QRPage> {
                         final RenderRepaintBoundary boundary =
                             _globalKey.currentContext!.findRenderObject()!
                                 as RenderRepaintBoundary;
-                        final ui.Image image1 =
-                            await boundary.toImage();
+                        final ui.Image image1 = await boundary.toImage();
                         final ByteData? byteData = await image1.toByteData(
                             format: ui.ImageByteFormat.png);
                         pngBytes = byteData!.buffer.asUint8List();

@@ -1,3 +1,4 @@
+import "package:flutter/foundation.dart" as web;
 import "package:flutter/material.dart";
 import "/category/category.dart";
 import "/colors/colorcode.dart";
@@ -53,34 +54,38 @@ class _BottomBarState extends State<BottomBar> {
           ),
         ),
       );
-
   @override
-  Widget build(BuildContext context) => Scaffold(
-        body: Center(child: LayoutBuilder(
-          builder: (_, __) {
-            if (__.maxWidth < 768) {
-              return _widgetOptions.elementAt(_selectedIndex);
-            } else {
-              return Container();
-            }
-          },
-        )),
-        bottomNavigationBar: BottomNavigationBar(
-          selectedFontSize: 0,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.extension, "Create", 0),
-              label: "Create",
-            ),
-            BottomNavigationBarItem(
-              icon: _buildIcon(Icons.camera_enhance, "Scan", 1),
-              // title: SizedBox.shrink(),
-              label: "Scan",
-            ),
-          ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: _selectedItemColor,
-          unselectedItemColor: _unselectedItemColor,
-        ),
-      );
+  Widget build(BuildContext context) => Builder(builder: (_) {
+        if (web.kIsWeb) {
+          return const Scaffold(body: Category());
+        } else {
+          return Scaffold(
+              body: Center(child: LayoutBuilder(
+                builder: (_, __) {
+                  if (__.maxWidth < 768) {
+                    return _widgetOptions.elementAt(_selectedIndex);
+                  } else {
+                    return Container();
+                  }
+                },
+              )),
+              bottomNavigationBar: BottomNavigationBar(
+                selectedFontSize: 0,
+                items: <BottomNavigationBarItem>[
+                  BottomNavigationBarItem(
+                    icon: _buildIcon(Icons.extension, "Create", 0),
+                    label: "Create",
+                  ),
+                  BottomNavigationBarItem(
+                    icon: _buildIcon(Icons.camera_enhance, "Scan", 1),
+                    // title: SizedBox.shrink(),
+                    label: "Scan",
+                  ),
+                ],
+                currentIndex: _selectedIndex,
+                selectedItemColor: _selectedItemColor,
+                unselectedItemColor: _unselectedItemColor,
+              ));
+        }
+      });
 }

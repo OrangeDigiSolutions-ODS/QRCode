@@ -145,13 +145,13 @@ class _DesktopViewImageState extends State<DesktopViewImage> {
                                     createQR = "waiting..";
                                   });
                                   for (int i = 0; i < path1.length; i++) {
-                                    imageUpload1(v4, path1[i]).then((_) {
+                                    imageUpload1(v4, path1[i]).whenComplete(() {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute<dynamic>(
                                               builder: (_) => QRPage(
                                                   url:
-                                                      "https://instagram-clone-db971.web.app/images/viewqr?id=$v4")));
+                                                      "https://crud-operation-cdbf0.web.app/images/viewqr?id=$v4")));
                                       showTopSnackBar(
                                         context,
                                         const CustomSnackBar.success(

@@ -72,9 +72,7 @@ class _ScanPageState extends State<ScanPage> {
                 child: Column(
                   children: <Widget>[
                     ListTile(title: Builder(builder: (_) {
-                      if (scanResult.rawContent != null) {
-                        const Text("Data:-");
-                      }
+                      const Text("Data:-");
                       return const SizedBox.shrink();
                     }), subtitle: Builder(
                       builder: (_) {
@@ -89,7 +87,7 @@ class _ScanPageState extends State<ScanPage> {
                                             )));
                               },
                               child: const Text("press me"));
-                        } else if (scanr!.contains("/o/pdf")) {
+                        } else if ((scanResult.rawContent).contains("/o/pdf")) {
                           return ElevatedButton(
                               onPressed: () {
                                 Navigator.push(
@@ -142,7 +140,7 @@ class _ScanPageState extends State<ScanPage> {
                                         context,
                                         MaterialPageRoute<dynamic>(
                                             builder: (_) => ViewQRPDF(
-                                                  url: "$scanr",
+                                                  url: scanr!,
                                                 )));
                                   },
                                   child: const Text("press me"));

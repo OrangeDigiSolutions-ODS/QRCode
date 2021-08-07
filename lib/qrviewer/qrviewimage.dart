@@ -34,7 +34,7 @@ class _ViewQRImageState extends State<ViewQRImage> {
     // if (urisplit!.contains(uri) == true) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("$urisplit"),
+        title: const Text("QRange"),
       ),
       body: Container(
         alignment: Alignment.center,
@@ -85,12 +85,18 @@ class _ViewQRImageState extends State<ViewQRImage> {
                               child: Stack(children: <Widget>[
                                 Center(
                                   child: GestureDetector(
-                                    child: Image.network("${imageurl1[__]}",
-                                        fit: BoxFit.none,
-                                        height:
-                                            MediaQuery.of(context).size.height,
-                                        width:
-                                            MediaQuery.of(context).size.width),
+                                    child:
+                                        // Image.network("${imageurl1[__]}",
+                                        Image(
+                                            image: NetworkImage(
+                                                "${imageurl1[__]}"),
+                                            // fit: BoxFit.cover,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .height,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width),
                                   ),
                                 ),
                                 Container(

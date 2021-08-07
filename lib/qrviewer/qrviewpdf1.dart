@@ -1,9 +1,11 @@
 import "dart:io";
+import "dart:typed_data";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 import "package:path_provider/path_provider.dart";
 import "package:syncfusion_flutter_pdfviewer/pdfviewer.dart";
 
+// ignore: must_be_immutable
 class ViewQRPDF extends StatefulWidget {
   ViewQRPDF({required this.url, Key? key}) : super(key: key);
   String url;
@@ -20,15 +22,14 @@ class _ViewQRPDFState extends State<ViewQRPDF> {
   }
 
   File? ssc;
-  var httpClient = HttpClient();
+  HttpClient httpClient = HttpClient();
   Future<File> _downloadFile(String url, String filename) async {
-    var request = await httpClient.getUrl(Uri.parse(url));
-    var response = await request.close();
-    var bytes = await consolidateHttpClientResponseBytes(response);
-    String dir = (await getApplicationDocumentsDirectory()).path;
-    File file = new File("$dir/$filename");
+    final HttpClientRequest request = await httpClient.getUrl(Uri.parse(url));
+    final HttpClientResponse response = await request.close();
+    final Uint8List bytes = await consolidateHttpClientResponseBytes(response);
+    final String dir = (await getApplicationDocumentsDirectory()).path;
+    final File file = File("$dir/$filename");
     await file.writeAsBytes(bytes);
-    print(file);
     setState(() {
       ssc = file;
     });

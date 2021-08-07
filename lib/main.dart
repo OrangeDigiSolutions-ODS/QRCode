@@ -50,10 +50,12 @@ class QRCode extends StatelessWidget {
           }
         },
         routes: <String, WidgetBuilder>{
-          "/": (_) => const MyApp(),
+          "/": (_) => const SplashScreen(),
           "/slider": (_) => const SliderPage(),
           "/bottombar": (_) => const BottomBar(),
-          "/qrcode": (_) => QRPage(url: "hello",),
+          "/qrcode": (_) => QRPage(
+                url: "hello",
+              ),
           "/scan": (_) => const ScanPage(),
           "/viewqr": (_) => ViewQRImage()
         },
