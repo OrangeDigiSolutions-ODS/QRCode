@@ -120,14 +120,19 @@ class _QRPageState extends State<QRPage> {
                   children: <Widget>[
                     ElevatedButton(
                       onPressed: () async {
-                        final RenderRepaintBoundary boundary =
-                            _globalKey.currentContext!.findRenderObject()!
-                                as RenderRepaintBoundary;
-                        final ui.Image image1 = await boundary.toImage();
-                        final ByteData? byteData = await image1.toByteData(
-                            format: ui.ImageByteFormat.png);
-                        pngBytes = byteData!.buffer.asUint8List();
-                        debugPrint(widget.url);
+                        try {
+                          final RenderRepaintBoundary boundary =
+                              _globalKey.currentContext!.findRenderObject()!
+                                  as RenderRepaintBoundary;
+                          final ui.Image image1 = await boundary.toImage(pixelRatio: ui.window.devicePixelRatio);
+                          final ByteData? byteData = await image1.toByteData(
+                              format: ui.ImageByteFormat.png);
+                          pngBytes = byteData!.buffer.asUint8List();
+                          debugPrint(widget.url);
+                        // ignore: avoid_catches_without_on_clauses
+                        } catch (e) {
+                          debugPrint("hello");
+                        }
                         if (kIsWeb) {
                           html.Blob(
                               <dynamic>[base64Encode(pngBytes!)], "image/png");

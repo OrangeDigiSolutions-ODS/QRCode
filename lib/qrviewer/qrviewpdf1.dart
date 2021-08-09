@@ -37,11 +37,16 @@ class _ViewQRPDFState extends State<ViewQRPDF> {
   }
 
   @override
-  Widget build(BuildContext context) => Builder(builder: (_) {
-        if (ssc != null) {
-          return SfPdfViewer.file(ssc!);
-        }
-        return const Center(child: CircularProgressIndicator());
-      });
+  Widget build(BuildContext context) => Scaffold(
+        appBar: AppBar(
+          title: const Text("PDF Viewer"),
+        ),
+        body: Builder(builder: (_) {
+          if (ssc != null) {
+            return SfPdfViewer.file(ssc!);
+          }
+          return const Center(child: CircularProgressIndicator());
+        }),
+      );
   // Container(child: SfPdfViewer.file(ssc!));
 }

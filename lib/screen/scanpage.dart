@@ -5,6 +5,7 @@ import "package:flutter/material.dart";
 import "package:images_picker/images_picker.dart";
 import "package:scan/scan.dart";
 import "package:url_launcher/url_launcher.dart";
+import "/colors/colorcode.dart";
 import "/qrviewer/qrviewimage.dart";
 import "/qrviewer/qrviewpdf1.dart";
 
@@ -53,20 +54,58 @@ class _ScanPageState extends State<ScanPage> {
         child: ListView(
           shrinkWrap: true,
           children: <Widget>[
-            ElevatedButton(onPressed: _scan, child: const Text("scan QR")),
+            // ClipRRect(
+            //   borderRadius: BorderRadius.circular(120),
+            //   child: SizedBox(
+            //     width: 10,
+            //     height: 150,
+            //     child: ElevatedButton.icon(
+            //       icon: const Icon(
+            //         Icons.camera,
+            //         size: 40,
+            //       ),
+            //       label: const Text(
+            //         'Scan QR',
+            //         style: TextStyle(fontSize: 25),
+            //       ),
+            //       onPressed: _scan,
+            //     ),
+            //   ),
+            // ),
             ElevatedButton(
-                onPressed: () async {
-                  final List<Media>? res = await ImagesPicker.pick();
-                  if (res != null) {
-                    final String? str = await Scan.parse(res[0].path);
-                    if (str != null) {
-                      setState(() {
-                        scanr = str;
-                      });
-                    }
-                  }
-                },
-                child: const Text("Gallery")),
+                onPressed: _scan,
+                style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(), primary: ColorCode.orange),
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Icon(
+                        Icons.camera,
+                        size: 70,
+                      ),
+                      Text("Scan QR"),
+                    ],
+                  ),
+                )),
+
+            // ElevatedButton(
+            //     onPressed: () async {
+            //       final List<Media>? res = await ImagesPicker.pick();
+            //       if (res != null) {
+            //         final String? str = await Scan.parse(res[0].path);
+            //         if (str != null) {
+            //           setState(() {
+            //             scanr = str;
+            //           });
+            //         }
+            //       }
+            //     },
+            //     child: const Text("Gallery")),
             if (scanResult != null)
               Card(
                 child: Column(
@@ -160,6 +199,37 @@ class _ScanPageState extends State<ScanPage> {
                   ],
                 ),
               ),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            ElevatedButton(
+                onPressed: () async {
+                  final List<Media>? res = await ImagesPicker.pick();
+                  if (res != null) {
+                    final String? str = await Scan.parse(res[0].path);
+                    if (str != null) {
+                      setState(() {
+                        scanr = str;
+                      });
+                    }
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                    shape: const CircleBorder(), primary: ColorCode.orange),
+                child: Container(
+                  width: 150,
+                  height: 150,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(shape: BoxShape.circle),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: const <Widget>[
+                      Icon(
+                        Icons.image,
+                        size: 70,
+                      ),
+                      Text("Gallery"),
+                    ],
+                  ),
+                )),
           ],
         ),
       ),
